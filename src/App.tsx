@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Header from './Header';
+import Todos from './AddTodo';
+import TodoList from './TodoList';
+
 
 function App() {
+  const [todos, setTodos] = useState<Array<{isCompleted: boolean, todoText: string, id:string}>>(() => {
+    const storedTodos = localStorage.getItem("todos");
+    return storedTodos ? JSON.parse(storedTodos) : [];
+  });
+
+  const [newTodo, setNewTodo] = useState({isCompleted: false, todoText: "", id: Date.now().toString()});
+
+  //saves todos
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      <TodoList todos={todos} setTodos={setTodos}/>
+      <Todos todos={todos} setTodos={setTodos} newTodo={newTodo} setNewTodo={setNewTodo} />
     </div>
   );
 }
