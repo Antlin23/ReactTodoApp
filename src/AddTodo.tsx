@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react"
-
 interface TodosProps {
     todos: Array<{isCompleted: boolean, todoText: string, id:string}>;
     setTodos: React.Dispatch<React.SetStateAction<Array<{isCompleted: boolean, todoText: string, id:string}>>>;
